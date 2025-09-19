@@ -2,7 +2,18 @@
 // ==== Configuration pour Grist ======
 // ====================================
 
-// TODO: A implémenter
+let colonnesNecessaires = [
+	{
+    name: 'id_fiche',
+    title: "Identifiant fiche",
+    type: 'Any',
+    optional: false // if column is optional.
+	},
+  {name: 'contenu',title: "Contenu a reprendre dans la fiche",type: 'Any',optional: false}
+];
+
+let tableauFiche = {};
+let listeTables;
 
 // ==========================================
 // ==== fonction d'affichge des fiches ======
@@ -10,19 +21,20 @@
 
 
 function titreForm(){
-  document.getElementById('titreForm').innerHTML = 'Titre du formulaire : le magnifique ';
+  document.getElementById('titreForm').innerHTML = tableauFiche['titreFiche'];
   // TODO: aller chercher les infos dans grist
 }
 function descriptionForm(){
-  document.getElementById('descriptionForm').innerHTML = 'description du formulaire <br><br><br><br> fin de la description';
+  document.getElementById('descriptionForm').innerHTML = tableauFiche['descriptionForm'];//'description du formulaire <br><br><br><br> fin de la description';
+  //console.log(tableauFiche);
   // TODO: aller chercher les infos dans grist
 }
 function descriptionOrganisationEquipe(){
-  document.getElementById('descriptionOrganisationEquipe').innerHTML = 'description du formulaire <br><br><br><br> fin de la description';
+  document.getElementById('descriptionOrganisationEquipe').innerHTML = tableauFiche['descriptionOrganisationEquipe'];
   // TODO: aller chercher les infos dans grist
 }
 function descriptionPartieCAP(){
-  document.getElementById('partieCAP').innerHTML = 'description du formulaire <br><br><br><br> fin de la description';
+  document.getElementById('partieCAP').innerHTML = tableauFiche['partieCAP'];
   // TODO: aller chercher les infos dans grist
 }
 
@@ -97,7 +109,7 @@ function changementConditionSucces(context){
   // TODO: aller chercher les infos dans grist
 }
 
-function changementModalitésPratiques(context){
+function changementModalitesPratiques(context){
   alert(`changement de valeur : ${context.value}`);
   console.log("test input :", context.value);
   // TODO: aller chercher les infos dans grist
@@ -143,9 +155,27 @@ function changementContacts(context){
 // ========================================
 // ==== initialisation du formulaire ======
 // ========================================
+grist.ready({
+	onEditOptions() {
+		basculerPanneauOption();
+		//telechargeGantt();
+  },
+  columns: colonnesNecessaires,
+	requiredAccess: 'read table',
+	allowSelectBy: false
+});
+async function init(){
+  const tableau = await grist.fetchSelectedTable({format: 'rows'});
+  const colonnes = await grist.sectionApi.mappings();
+  tableau.forEach((ligne, i) => {
+    tableauFiche[ligne[colonnes.id_fiche]] = ligne[colonnes.contenu];
+  });
 
+  listeTables = await grist.docApi.listTables();
+  titreForm();
+  descriptionForm();
+  descriptionOrganisationEquipe();
+  descriptionPartieCAP();
+}
 
-titreForm();
-descriptionForm();
-descriptionOrganisationEquipe();
-descriptionPartieCAP();
+init();
