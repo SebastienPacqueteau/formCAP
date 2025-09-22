@@ -125,6 +125,32 @@
           </div>
         </section>
       </div>
+      <div class="sidebar collapsed" id="sidebar">
+          <div class="sidebar-header p-3">
+              <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Options</h5>
+                  <div class="d-flex gap-2">
+                      <button class="btn btn-sm btn-light" onclick="basculerPanneauOption()">
+                          <i class="bi bi-x-circle"></i>
+                      </button>
+                  </div>
+              </div>
+          </div>
+
+          <!-- les options -->
+          <nav class="nav flex-column mt-2">
+            <label for="optionService" class="form-label">Selectionnez la table Service</label>
+            <select class="form-select" id="optionService" aria-label="Selection de la liste des services" onchange="panneauOptionService(this)">
+              <option selected>Selectionnez la table Service</option>
+            </select>
+
+            <label for="optionSD" class="form-label">Selectionnez la table SD</label>
+            <select class="form-select" id="optionSD" aria-label="Selection de la liste des SD" onchange="panneauOptionSD(this)">
+              <option selected>Selectionnez la table SD</option>
+            </select>
+          </nav>
+
+      </div>
     <script type="text/javascript" src="form.js"></script>
   </body>
 </html>

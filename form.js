@@ -152,9 +152,40 @@ function changementContacts(context){
 }
 
 
+
+// =============================================
+// ==== panneau de Configuration / option ======
+// =============================================
+
+function basculerPanneauOption() {
+	const sidebar = document.getElementById('sidebar');
+	sidebar.classList.toggle('collapsed');
+	//console.log(sidebar);
+}
+
+function panneauOptionService(context){
+	const optionService = document.getElementById('optionService');
+	alert(optionService.value);
+}
+
+function panneauOptionChoixTableService(tables){
+	const optionService = document.getElementById('optionService');
+	let nouvelleOption;
+	tables.forEach((table, i) => {
+		nouvelleOption = document.createElement("option");
+		nouvelleOption.value = table;
+		nouvelleOption.text = table;
+
+		optionService.add(nouvelleOption);
+	});
+	//console.log(optionService.options);
+}
+
 // ========================================
 // ==== initialisation du formulaire ======
 // ========================================
+
+/*
 grist.ready({
 	onEditOptions() {
 		basculerPanneauOption();
@@ -176,6 +207,17 @@ async function init(){
   descriptionForm();
   descriptionOrganisationEquipe();
   descriptionPartieCAP();
+	panneauOptionChoixTableService(listeTables);
+}
+*/
+function init_sansGrist(){
+	listeTables = ["services", "sousDirection","AAC"];
+  titreForm();
+  descriptionForm();
+  descriptionOrganisationEquipe();
+  descriptionPartieCAP();
+	panneauOptionChoixTableService(listeTables);
 }
 
-init();
+init_sansGrist();
+//init();
